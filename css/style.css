@@ -1,0 +1,566 @@
+/* =====================================================================
+   STILE DEL SITO | Pietro De Gregorio
+   Mobile first: gli stili base sono per il telefono, le regole
+   @media (min-width: ...) aggiungono modifiche per schermi più grandi.
+   ===================================================================== */
+
+/* ---------- Font salvati in locale ----------
+   Barlow Condensed per i titoli (simile alle copertine dei suoi reel),
+   Barlow per i testi. In locale = nessun cookie e nessuna richiesta
+   esterna, e la demo funziona anche senza connessione. */
+@font-face { font-family: "Barlow Condensed"; font-weight: 700; font-style: normal; font-display: swap; src: url("../fonts/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 800; font-style: normal; font-display: swap; src: url("../fonts/barlow-condensed-latin-800-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 800; font-style: italic; font-display: swap; src: url("../fonts/barlow-condensed-latin-800-italic.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 400; font-style: normal; font-display: swap; src: url("../fonts/barlow-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Barlow"; font-weight: 600; font-style: normal; font-display: swap; src: url("../fonts/barlow-latin-600-normal.woff2") format("woff2"); }
+
+/* ---------- Variabili: cambia qui colori e font ----------
+   Colori ricavati dalle copertine Instagram di Pietro. */
+:root {
+  --sfondo: #0d1013;          /* quasi nero, come i suoi reel */
+  --sfondo-profondo: #070909;
+  --gesso: #eef1ec;           /* bianco "gesso" per le sezioni chiare */
+  --testo: #eef1ec;
+  --testo-tenue: #9aa3a9;
+  --testo-scuro: #0d1013;
+  --linea: #262d33;
+
+  --accento: #c8f830;         /* verde lime delle sue scritte */
+  --accento-2: #12d6d6;       /* ciano delle sottolineature */
+
+  --segnaposto: #ff7fb0;      /* rosa: SOLO per i [DA COMPLETARE] */
+
+  --font-titoli: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-testo: "Barlow", system-ui, sans-serif;
+
+  --margine: 20px;            /* margine laterale su mobile */
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--sfondo);
+  color: var(--testo);
+  font-family: var(--font-testo);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  /* Rete di sicurezza: una parola troppo lunga per lo spazio disponibile
+     va a capo invece di uscire dallo schermo (utile col testo ingrandito).
+     Per lo stesso motivo le griglie usano minmax(0, 1fr) invece di 1fr:
+     così una colonna non si allarga oltre lo spazio che ha. */
+  overflow-wrap: break-word;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3, p, ul, ol, dl, figure, blockquote { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+/* Contorno ben visibile quando si naviga con la tastiera */
+:focus-visible { outline: 3px solid var(--accento-2); outline-offset: 3px; }
+
+.contenitore { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 var(--margine); }
+.contenitore--stretto { max-width: 760px; }
+
+.salta {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--accento); color: var(--testo-scuro); padding: .75rem 1rem; font-weight: 600;
+}
+.salta:focus { left: 0; }
+
+/* ---------- Segnaposto [DA COMPLETARE] ----------
+   Volutamente "stonati": devono saltare all'occhio. */
+.segnaposto {
+  display: inline;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: .78em;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--segnaposto);
+  background: rgba(255, 127, 176, .1);
+  outline: 1px dashed var(--segnaposto);
+  padding: 0 .3em;
+  -webkit-text-stroke: 0;
+}
+
+/* ---------- Pulsanti ---------- */
+.pulsante {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 54px;
+  padding: .85rem min(1.6rem, 5vw);   /* min(): col testo ingrandito resta spazio per le parole */
+  text-align: center;
+  background: var(--accento);
+  color: var(--testo-scuro);
+  border: 2px solid var(--accento);
+  border-radius: 2px;
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+  text-decoration: none;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.pulsante:hover { background: var(--testo); border-color: var(--testo); }
+.pulsante--vuoto { background: transparent; color: var(--testo); border-color: currentColor; }
+.pulsante--vuoto:hover { background: var(--testo); color: var(--testo-scuro); border-color: var(--testo); }
+
+/* ---------- Titoli "copertina" ----------
+   Riprendono lo schema dei suoi reel: riga bianca, riga in corsivo
+   verde con sottolineatura ciano, nota piccola spaziata. */
+/* Titoli grandi e testo ingrandito
+   Chi ingrandisce i caratteri dalle impostazioni del telefono fa crescere
+   anche i "rem". Una parola lunga come TRASFORMAZIONI allora non entra più
+   e tutta la pagina scorre di lato. Per questo ogni titolo grande ha un
+   tetto legato alla larghezza dello schermo: min(dimensione normale, X vw).
+   Con il testo normale il tetto non scatta mai. overflow-wrap è la rete di
+   sicurezza: se un domani si scrive una parola ancora più lunga, va a capo
+   invece di uscire dallo schermo. */
+.copertina {
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: .92;
+  font-size: min(clamp(3.1rem, 14vw, 6.8rem), 15vw);
+  letter-spacing: -.005em;
+  overflow-wrap: break-word;
+}
+.copertina__riga { display: block; }
+.copertina__accento {
+  display: block;
+  width: fit-content;
+  margin-top: .08em;
+  padding-bottom: .06em;
+  color: var(--accento);
+  font-style: italic;
+  font-size: .62em;
+  border-bottom: .09em solid var(--accento-2);
+}
+.copertina__nota {
+  display: block;
+  margin-top: 1.1rem;
+  font-family: var(--font-testo);
+  font-weight: 600;
+  font-size: .82rem;
+  letter-spacing: .32em;
+  line-height: 1.3;
+}
+.copertina em, .titolo em { color: var(--accento); font-style: italic; }
+
+.titolo {
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: .95;
+  font-size: min(clamp(2.5rem, 11vw, 4.6rem), 12.5vw);
+  margin-bottom: 2rem;
+  overflow-wrap: break-word;
+}
+
+.etichetta {
+  font-weight: 600;
+  font-size: .8rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accento-2);
+  margin-bottom: 1rem;
+}
+
+/* ---------- Intestazione ---------- */
+.testata {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 14px var(--margine);
+}
+.testata__marchio {
+  display: inline-flex; align-items: center;
+  min-height: 44px;           /* area di tocco minima consigliata */
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+.testata__nav { display: none; }
+.testata__azioni { display: flex; align-items: center; gap: 1rem; }
+.testata__cta { display: none; }   /* compare solo su desktop, vedi in fondo */
+.testata__ig { display: grid; place-items: center; width: 44px; height: 44px; }
+.testata__ig svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; }
+.testata__ig .pieno { fill: currentColor; stroke: none; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 92vh;
+  min-height: 92svh;   /* svh: altezza reale su mobile, senza barra del browser */
+  display: flex;
+  align-items: flex-end;
+  padding: 7rem 0 2.5rem;
+  overflow: hidden;
+}
+.hero__foto {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: 50% center;   /* sul telefono tiene il viso dentro lo schermo */
+}
+/* Sfumatura scura sotto il testo: serve alla leggibilità, non è decorazione */
+.hero::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, var(--sfondo) 12%, rgba(13, 16, 19, .78) 45%, rgba(13, 16, 19, .25) 100%);
+}
+.hero__testo { position: relative; z-index: 1; }
+.hero__sotto { max-width: 34rem; margin-top: 1.5rem; font-size: 1.125rem; }
+.hero__azioni { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+.hero__azioni .pulsante:first-child { flex: 1 1 100%; }
+.hero__azioni .pulsante--vuoto { flex: 1 1 100%; min-height: 48px; font-size: 1.1rem; }
+
+/* ---------- Numeri ---------- */
+.numeri { border-top: 1px solid var(--linea); border-bottom: 1px solid var(--linea); }
+/* minmax(0, 1fr): le tre colonne restano uguali anche se una parola è
+   più larga della colonna (con "1fr" da solo la colonna si allargherebbe
+   e spingerebbe la terza fuori dallo schermo). */
+.numeri__lista { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.numeri__lista li { padding: 1.4rem .5rem 1.4rem 0; }
+.numeri__lista li + li { padding-left: .9rem; border-left: 1px solid var(--linea); }
+.numeri__lista strong {
+  display: block;
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: min(clamp(2.1rem, 9vw, 3.4rem), 10vw);
+  line-height: 1;
+  color: var(--accento);
+}
+/* hyphens: con il testo ingrandito "trasformazioni" va a capo col trattino
+   (in italiano, grazie a lang="it") invece di uscire dalla colonna */
+.numeri__lista span {
+  display: block; margin-top: .35rem; font-size: .82rem; line-height: 1.3; color: var(--testo-tenue);
+  -webkit-hyphens: auto; hyphens: auto; overflow-wrap: break-word;
+}
+
+/* ---------- Sezioni ---------- */
+.sezione { padding: 4.5rem 0; }
+.sezione--scura { background: var(--sfondo-profondo); }
+
+/* Sezione chiara: rompe il ritmo del nero. Sul fondo chiaro il lime
+   non si leggerebbe, quindi diventa un "evidenziatore" dietro il testo. */
+.sezione--chiara { background: var(--gesso); color: var(--testo-scuro); }
+/* L'evidenziatore è una fascia (gradiente a bordi netti) alta quanto le
+   lettere, non tutto il riquadro del carattere: con l'interlinea stretta
+   dei titoli, uno sfondo pieno coprirebbe la parte bassa della riga sopra. */
+.sezione--chiara .titolo em {
+  color: var(--testo-scuro);
+  background: linear-gradient(
+    to bottom,
+    transparent 0.2em,
+    var(--accento) 0.2em,
+    var(--accento) calc(100% - 0.1em),
+    transparent calc(100% - 0.1em)
+  );
+  padding: 0 .12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.sezione--chiara .segnaposto { color: #a3004a; outline-color: #a3004a; background: rgba(163, 0, 74, .06); }
+
+.nota-sezione { margin: -1rem 0 2rem; font-size: .95rem; color: var(--testo-tenue); }
+.sezione--chiara .nota-sezione { color: #4a5258; }
+
+/* ---------- Ti riconosci? ---------- */
+.problemi { counter-reset: problema; border-top: 1px solid var(--linea); }
+.problemi li {
+  counter-increment: problema;
+  display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); align-items: baseline;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--linea);
+  font-family: var(--font-titoli);
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1.12;
+}
+.problemi li::before {
+  content: counter(problema, decimal-leading-zero);
+  font-size: .95rem;
+  color: var(--accento-2);
+}
+.problemi__chiusura { margin-top: 2rem; font-size: 1.2rem; max-width: 36rem; }
+.problemi__chiusura em { color: var(--accento); font-style: italic; font-weight: 600; }
+
+/* ---------- Fasi del metodo ---------- */
+.fasi { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.25rem; }
+.fase { border-top: 3px solid var(--testo-scuro); padding-top: .75rem; }
+.fase__numero {
+  display: block;
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 4.2rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--testo-scuro);
+}
+.fase h3 {
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  line-height: 1.05;
+  margin: .5rem 0 .5rem;
+}
+
+/* ---------- Percorsi ---------- */
+.percorsi { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+.percorso {
+  display: flex; flex-direction: column;
+  padding: 1.6rem min(1.4rem, 5vw);   /* con testo ingrandito il margine interno non ruba spazio */
+  border: 1px solid var(--linea);
+  border-top: 5px solid var(--accento);
+  background: #12161a;
+}
+.percorso h3 {
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 2.1rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.percorso__chi { margin: .6rem 0 1.25rem; color: var(--testo-tenue); }
+.percorso ul { margin-bottom: 1.5rem; }
+.percorso li { position: relative; padding: .45rem 0 .45rem 1.4rem; border-bottom: 1px solid var(--linea); }
+.percorso li::before {
+  content: ""; position: absolute; left: 0; top: 1.05em;
+  width: .5rem; height: .5rem; background: var(--accento);
+}
+.percorso__prezzo {
+  margin-top: auto;
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 2.6rem;
+  line-height: 1.1;
+}
+.percorso__prezzo small { font-size: 1rem; font-weight: 700; color: var(--testo-tenue); text-transform: uppercase; }
+.percorso__prezzo--richiesta { font-size: 1.7rem; color: var(--accento); }
+.percorso__prezzo .segnaposto { font-size: .4em; vertical-align: middle; }
+.percorso .pulsante { margin-top: 1.25rem; width: 100%; }
+
+/* ---------- Trasformazioni (segnaposto) ---------- */
+.trasformazioni { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
+.trasformazione__foto {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px;
+  aspect-ratio: 4 / 3;
+}
+/* Riquadri a righe: si capisce subito che manca la foto */
+.trasformazione__foto span {
+  display: flex; align-items: flex-end;
+  padding: .75rem;
+  background: repeating-linear-gradient(135deg, #171c20 0 12px, #12161a 12px 24px);
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 1.9rem;
+  text-transform: uppercase;
+  color: var(--testo-tenue);
+}
+.trasformazione__foto span:last-child { color: var(--accento); }
+.trasformazione figcaption { margin-top: .75rem; font-size: .95rem; color: var(--testo-tenue); }
+.trasformazione figcaption strong { color: var(--testo); margin-right: .4rem; }
+
+.recensioni { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+.recensione { border-left: 4px solid var(--accento-2); padding: .25rem 0 .25rem 1.1rem; }
+.recensione p { font-size: 1.1rem; }
+.recensione footer { margin-top: .6rem; font-size: .85rem; color: var(--testo-tenue); text-transform: uppercase; letter-spacing: .1em; }
+
+/* ---------- Chi sono ---------- */
+.chi-sono__griglia { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+.chi-sono__foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.chi-sono p + p { margin-top: 1rem; }
+.dettagli { margin-top: 2rem; border-top: 1px solid var(--linea); }
+.dettagli div { padding: .85rem 0; border-bottom: 1px solid var(--linea); }
+.dettagli dt { font-size: .78rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accento-2); }
+.dettagli dd { margin: .2rem 0 0; }
+
+/* ---------- Domande frequenti ---------- */
+.faq { border-top: 2px solid var(--testo-scuro); }
+.domanda { border-bottom: 1px solid #c9cec8; }
+.domanda summary {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  padding: 1.15rem 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-titoli);
+  font-weight: 800;
+  font-size: 1.45rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.domanda summary::-webkit-details-marker { display: none; }
+/* Il "+" ruota e diventa una "x" quando la risposta è aperta */
+.domanda summary::after {
+  content: "+";
+  flex: none;
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform .2s;
+}
+.domanda[open] summary::after { transform: rotate(45deg); }
+.domanda p { padding: 0 0 1.25rem; max-width: 40rem; }
+
+/* ---------- Chiusura e contatti ---------- */
+/* La foto occupa solo la parte alta della sezione (dietro il titolo) e
+   sfuma nel nero verso i contatti. Prima copriva tutta la sezione e la
+   sfumatura la nascondeva quasi del tutto. La foto è già molto scura,
+   quindi non serve abbassarne l'opacità: lo scuro lo fa la sfumatura. */
+.chiusura { position: relative; padding: 5.5rem 0 4rem; overflow: hidden; }
+.chiusura__foto,
+.chiusura::after {
+  position: absolute; top: 0; left: 0;
+  width: 100%;
+  height: var(--altezza-foto-chiusura, 36rem);
+}
+.chiusura__foto {
+  object-fit: cover;
+  object-position: 50% 60%;   /* inquadra busto e bilanciere */
+}
+.chiusura::after {
+  content: "";
+  background: linear-gradient(to bottom,
+    rgba(13, 16, 19, .35) 0%,
+    rgba(13, 16, 19, .15) 35%,
+    rgba(13, 16, 19, .6) 75%,
+    var(--sfondo) 100%);
+}
+.chiusura__testo { position: relative; z-index: 1; }
+.copertina--grande { font-size: min(clamp(4.2rem, 22vw, 9rem), 24vw); }
+.copertina--grande em {
+  display: block;
+  width: fit-content;
+  border-bottom: .07em solid var(--accento-2);
+}
+.chiusura__testo > p { margin: 1.25rem 0 1.75rem; font-size: 1.15rem; max-width: 30rem; }
+.chiusura__testo > .pulsante { width: 100%; }
+
+.contatti { margin-top: 3.5rem; border-top: 1px solid var(--linea); }
+/* Etichetta e valore sulla stessa riga; se lo spazio non basta (schermo
+   stretto + testo ingrandito) il valore va sotto l'etichetta. */
+.contatti li {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  column-gap: .75rem; row-gap: .25rem;
+  padding: .9rem 0;
+  border-bottom: 1px solid var(--linea);
+}
+.contatti__etichetta { flex: 0 0 6.5rem; font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accento-2); }
+.contatti__valore { flex: 1 1 9rem; min-width: 0; }
+/* Area di tocco più alta (44px) senza cambiare l'impaginazione:
+   il padding allarga la zona cliccabile, il margine negativo la
+   "restituisce" alla riga. */
+.contatti a {
+  display: inline-block;
+  padding: 9px 0; margin: -9px 0;
+  text-decoration-color: var(--accento); text-underline-offset: 3px; overflow-wrap: anywhere;
+}
+
+/* ---------- Piè di pagina ---------- */
+/* Niente spazio extra in fondo: qui la barra fissa è già nascosta.
+   safe-area-inset-bottom = spazio della "barretta" home degli iPhone. */
+.piede { padding: 2rem 0 calc(2rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--linea); font-size: .85rem; color: var(--testo-tenue); }
+.piede__righe { display: grid; gap: .4rem; }
+.piede a { display: inline-block; padding: 13px 0; margin: -13px 0; }
+
+/* ---------- Barra fissa in basso (mobile) ---------- */
+.barra-fissa {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  padding: 10px var(--margine) calc(10px + env(safe-area-inset-bottom));
+  background: rgba(13, 16, 19, .94);
+  border-top: 1px solid var(--linea);
+  transform: translateY(110%);
+  transition: transform .25s ease;
+  /* La barra resta sempre su un "livello" separato della scheda video:
+     quando compare o sparisce il browser la sposta e basta, senza
+     ridisegnare la pagina che c'è sotto. */
+  will-change: transform;
+}
+.barra-fissa--visibile { transform: translateY(0); }
+.barra-fissa .pulsante { width: 100%; }
+
+/* ---------- Schermi bassi ----------
+   Telefoni piccoli (es. iPhone SE) e telefono in orizzontale: la hero
+   si compatta perché il pulsante principale resti nella prima schermata. */
+@media (max-height: 700px) {
+  .hero { padding: 5rem 0 1.5rem; }
+  .hero__sotto { margin-top: 1rem; font-size: 1rem; }
+  .hero__azioni { margin-top: 1.25rem; }
+  .copertina__nota { margin-top: .75rem; }
+  .etichetta { margin-bottom: .6rem; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero { min-height: 0; padding-top: 4.5rem; }
+  .hero .copertina { font-size: clamp(2.4rem, 12vh, 3.6rem); }
+  .hero__sotto { display: none; }   /* il messaggio resta nel titolo */
+  .barra-fissa { padding-top: 6px; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+  .barra-fissa .pulsante { min-height: 44px; font-size: 1.1rem; }
+}
+
+/* =====================================================================
+   SCHERMI PIÙ GRANDI
+   ===================================================================== */
+@media (min-width: 700px) {
+  :root { --margine: 32px; }
+  .hero__azioni .pulsante:first-child,
+  .hero__azioni .pulsante--vuoto { flex: 0 0 auto; }
+  .fasi { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .percorsi, .trasformazioni, .recensioni { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chiusura__testo > .pulsante { width: auto; }
+  .contatti { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; }
+}
+
+@media (min-width: 1000px) {
+  /* Intestazione fissa: trasparente sopra la hero, piena (con il pulsante
+     di contatto) appena si scorre oltre. Sostituisce il pulsante flottante
+     in basso a destra, che copriva parte dei contenuti. */
+  .testata {
+    position: fixed;
+    transition: background-color .25s, border-color .25s;
+    border-bottom: 1px solid transparent;
+  }
+  .testata--piena { background: var(--sfondo); border-bottom-color: var(--linea); }
+  .testata__cta {
+    display: inline-flex;
+    min-height: 44px; padding: .4rem 1.1rem; font-size: 1.05rem;
+    visibility: hidden; opacity: 0;          /* nascosto = anche fuori dal tasto Tab */
+    transition: opacity .25s, visibility .25s, background-color .15s, border-color .15s;
+  }
+  .testata--piena .testata__cta { visibility: visible; opacity: 1; }
+  .barra-fissa { display: none; }
+  /* Le ancore del menu non finiscono sotto l'intestazione fissa */
+  section[id] { scroll-margin-top: 72px; }
+
+  .testata__nav { display: flex; gap: 2rem; }
+  .testata__nav a {
+    padding: .75rem 0;                       /* area cliccabile più alta */
+    font-weight: 600; font-size: .85rem; letter-spacing: .14em;
+    text-transform: uppercase; text-decoration: none;
+  }
+  .testata__nav a:hover { color: var(--accento); }
+  /* Foto specchiata: su desktop il soggetto va a destra, lasciando spazio al testo.
+     Da rivedere quando arriverà la foto reale. */
+  .hero__foto { object-position: center; transform: scaleX(-1); }
+  /* text-wrap: balance divide il titolo in righe di lunghezza simile
+     (niente "CON LA" da solo su una riga) */
+  .hero .copertina__riga { max-width: 8.6em; text-wrap: balance; }
+  .hero::after { background: linear-gradient(to right, var(--sfondo) 20%, rgba(13, 16, 19, .55) 60%, rgba(13, 16, 19, .1)); }
+  .hero { align-items: center; }
+  .sezione { padding: 7rem 0; }
+  .fasi { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .chi-sono__griglia { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4rem; align-items: center; }
+  .chi-sono__foto { aspect-ratio: 4 / 5; }
+  :root { --altezza-foto-chiusura: 42rem; }
+}
+
+/* Chi ha chiesto meno animazioni al sistema non le vede */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}

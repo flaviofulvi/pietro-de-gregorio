@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SEO locale: nome del trainer + città nel titolo e nella descrizione -->
+  <title>Pietro De Gregorio | Personal trainer a L'Aquila e online | Metodo RESET</title>
+  <meta name="description" content="Pietro De Gregorio, personal trainer a L'Aquila e online. Con il Metodo RESET aiuto chi è magro ma con la pancetta a definire il fisico, anche con poco tempo.">
+
+  <!-- DEMO: impedisce a Google di indicizzare questa versione.
+       TODO: rimuovere questa riga quando il sito va online per davvero. -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Anteprima quando il link viene condiviso (WhatsApp, Instagram DM) -->
+  <meta property="og:title" content="Pietro De Gregorio | Metodo RESET">
+  <meta property="og:description" content="Personal trainer a L'Aquila e online. Per chi è magro ma con la pancetta.">
+  <meta property="og:type" content="website">
+  <!-- WhatsApp e Instagram leggono l'anteprima solo da un indirizzo COMPLETO.
+       Ora punta alla demo su GitHub Pages. anteprima.jpg è 1200x630, il
+       formato standard delle anteprime social (il JPG è letto da tutte le app).
+       TODO pubblicazione: con il dominio vero sostituire l'indirizzo
+       qui sotto con https://DOMINIO/ e aggiungere:
+       <link rel="canonical" href="https://DOMINIO/"> -->
+  <meta property="og:url" content="https://flaviofulvi.github.io/pietro-de-gregorio/">
+  <meta property="og:image" content="https://flaviofulvi.github.io/pietro-de-gregorio/img/anteprima.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <!-- TODO: sostituire anteprima.jpg con una foto reale -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d1013">
+
+  <!-- Icona della scheda del browser. TODO: sostituire con il logo, se c'è. -->
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+  <!-- Carico in anticipo la foto della hero: è la prima cosa che si vede.
+       imagesizes deve essere uguale a "sizes" dell'immagine (spiegato più sotto). -->
+  <link rel="preload" as="image" href="img/hero-700.webp" imagesrcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w" imagesizes="(min-aspect-ratio: 138/100) 100vw, 138vh">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Dati strutturati: aiutano Google a capire chi è e dove lavora.
+       TODO: aggiornare indirizzo e contatti reali prima della pubblicazione. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Pietro De Gregorio",
+    "jobTitle": "Personal trainer",
+    "description": "Personal trainer specializzato in persone magre con pancetta (skinny fat). Metodo RESET, in presenza e online.",
+    "address": { "@type": "PostalAddress", "addressLocality": "L'Aquila", "addressCountry": "IT" },
+    "sameAs": [
+      "https://www.instagram.com/pietrodegregorio/",
+      "https://www.youtube.com/@pietrodegregoriocoach"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Link per saltare al contenuto: utile a chi naviga da tastiera -->
+  <a class="salta" href="#contenuto">Vai al contenuto</a>
+
+  <!-- ================= INTESTAZIONE ================= -->
+  <header class="testata">
+    <a class="testata__marchio" href="#inizio" data-campo="trainer.nome"></a>
+    <nav class="testata__nav" aria-label="Sezioni">
+      <a href="#metodo">Metodo</a>
+      <a href="#percorsi">Percorsi</a>
+      <a href="#chi-sono">Chi sono</a>
+      <a href="#faq">Domande</a>
+    </nav>
+    <div class="testata__azioni">
+      <!-- Solo su desktop: compare quando si scorre oltre la hero
+           (sul telefono c'è la barra fissa in basso) -->
+      <a class="pulsante testata__cta" data-link="whatsapp" data-campo="hero.pulsante"></a>
+      <a class="testata__ig" data-link="instagram" aria-label="Instagram di Pietro De Gregorio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="pieno"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="contenuto">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero" id="inizio" aria-labelledby="hero-titolo">
+      <!-- TODO: sostituire con foto reale (almeno 2400 px di lato lungo:
+           sul telefono la foto viene ritagliata e ingrandita).
+           "sizes" dice al browser quanto sarà larga la foto sullo schermo:
+           su schermi stretti e alti la foto riempie l'altezza (92% dello
+           schermo), quindi è larga 1,5 x 92vh = circa 138vh, non 100vw. -->
+      <img class="hero__foto"
+           src="img/hero-700.webp"
+           srcset="img/hero-700.webp 700w, img/hero-1200.webp 1200w"
+           sizes="(min-aspect-ratio: 138/100) 100vw, 138vh"
+           alt="Personal trainer che si allena con il bilanciere in palestra"
+           width="1200" height="800">
+
+      <div class="hero__testo contenitore">
+        <p class="etichetta" data-campo="hero.etichetta"></p>
+        <h1 class="copertina" id="hero-titolo">
+          <span class="copertina__riga" data-campo="hero.titolo"></span>
+          <span class="copertina__accento" data-campo="hero.titoloAccento"></span>
+          <span class="copertina__nota" data-campo="hero.nota"></span>
+        </h1>
+        <p class="hero__sotto" data-campo="hero.sottotitolo"></p>
+        <div class="hero__azioni" id="azioni-hero">
+          <a class="pulsante" data-link="whatsapp" data-campo="hero.pulsante"></a>
+          <a class="pulsante pulsante--vuoto" href="#metodo" data-campo="hero.pulsanteSecondario"></a>
+        </div>
+
+        <!-- Solo se JavaScript è disattivato: tutti i testi arrivano da dati.js,
+             quindi senza JS la pagina resterebbe vuota. -->
+        <noscript>
+          <style>.hero__azioni, .barra-fissa, .numeri, main > section:not(.hero), .piede { display: none; }</style>
+          <p class="hero__sotto">Pietro De Gregorio, personal trainer a L'Aquila e online.
+            Per vedere il sito attiva JavaScript nel browser, oppure scrivimi su
+            <a href="https://www.instagram.com/pietrodegregorio/">Instagram</a>.</p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- Numeri chiave -->
+    <section class="numeri" aria-label="In numeri">
+      <ul class="numeri__lista contenitore" data-lista="numeri"></ul>
+    </section>
+
+    <!-- ================= TI RICONOSCI? ================= -->
+    <section class="sezione" id="problemi" aria-labelledby="problemi-titolo">
+      <div class="contenitore">
+        <h2 class="titolo" id="problemi-titolo" data-campo="problemi.titolo"></h2>
+        <ol class="problemi" data-lista="problemi"></ol>
+        <p class="problemi__chiusura" data-campo="problemi.chiusura"></p>
+      </div>
+    </section>
+
+    <!-- ================= METODO RESET ================= -->
+    <section class="sezione sezione--chiara" id="metodo" aria-labelledby="metodo-titolo">
+      <div class="contenitore">
+        <h2 class="titolo" id="metodo-titolo" data-campo="metodo.titolo"></h2>
+        <p class="nota-sezione" data-campo="metodo.nota"></p>
+        <ol class="fasi" data-lista="fasi"></ol>
+      </div>
+    </section>
+
+    <!-- ================= PERCORSI ================= -->
+    <section class="sezione" id="percorsi" aria-labelledby="percorsi-titolo">
+      <div class="contenitore">
+        <h2 class="titolo" id="percorsi-titolo" data-campo="percorsi.titolo"></h2>
+        <div class="percorsi" data-lista="percorsi"></div>
+      </div>
+    </section>
+
+    <!-- ================= TRASFORMAZIONI ================= -->
+    <section class="sezione sezione--scura" id="risultati" aria-labelledby="risultati-titolo">
+      <div class="contenitore">
+        <h2 class="titolo" id="risultati-titolo" data-campo="risultati.titolo"></h2>
+        <p class="nota-sezione" data-campo="risultati.nota"></p>
+        <!-- TODO: sostituire con foto reali prima/dopo (solo con consenso scritto) -->
+        <div class="trasformazioni" data-lista="trasformazioni"></div>
+        <div class="recensioni" data-lista="recensioni"></div>
+      </div>
+    </section>
+
+    <!-- ================= CHI SONO ================= -->
+    <section class="sezione chi-sono" id="chi-sono" aria-labelledby="chi-sono-titolo">
+      <div class="contenitore chi-sono__griglia">
+        <!-- TODO: sostituire con foto reale -->
+        <img class="chi-sono__foto"
+             src="img/chi-sono-700.webp"
+             srcset="img/chi-sono-700.webp 700w, img/chi-sono-1200.webp 1200w"
+             sizes="(min-width: 1120px) 930px, (min-width: 1000px) 85vw, 115vw"
+             alt="Mani che afferrano un manubrio in palestra"
+             width="1200" height="800" loading="lazy">
+        <div>
+          <h2 class="titolo" id="chi-sono-titolo" data-campo="chiSono.titolo"></h2>
+          <div data-lista="chiSono"></div>
+          <dl class="dettagli" data-lista="dettagli"></dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section class="sezione sezione--chiara" id="faq" aria-labelledby="faq-titolo">
+      <div class="contenitore contenitore--stretto">
+        <h2 class="titolo" id="faq-titolo" data-campo="faq.titolo"></h2>
+        <div class="faq" data-lista="faq"></div>
+      </div>
+    </section>
+
+    <!-- ================= CHIUSURA + CONTATTI ================= -->
+    <section class="chiusura" id="contatti" aria-labelledby="chiusura-titolo">
+      <!-- TODO: sostituire con foto reale.
+           La foto occupa solo la parte alta della sezione (36rem): sul
+           telefono è quindi larga 1,5 x 36rem = 54rem. -->
+      <img class="chiusura__foto"
+           src="img/chiusura-700.webp"
+           srcset="img/chiusura-700.webp 700w, img/chiusura-1200.webp 1200w"
+           sizes="(min-width: 54rem) 100vw, 54rem"
+           alt="" width="1200" height="800" loading="lazy">
+      <div class="contenitore chiusura__testo">
+        <h2 class="copertina copertina--grande" id="chiusura-titolo">
+          <span data-campo="chiusura.titolo"></span>
+        </h2>
+        <p data-campo="chiusura.testo"></p>
+        <a class="pulsante" data-link="whatsapp" data-campo="chiusura.pulsante"></a>
+
+        <ul class="contatti" data-lista="contatti"></ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= PIÈ DI PAGINA ================= -->
+  <footer class="piede">
+    <div class="contenitore piede__righe">
+      <p>&copy; <span id="anno"></span> <span data-campo="trainer.nome"></span> | P.IVA <span data-campo="footer.partitaIva"></span></p>
+      <p><a href="privacy.html">Privacy policy</a></p>
+      <p>Sito di <span data-campo="footer.creditiSito"></span></p>
+    </div>
+  </footer>
+
+  <!-- Barra fissa in basso su mobile: il pulsante di contatto è sempre a portata di pollice.
+       Compare solo dopo aver superato i pulsanti della hero. -->
+  <div class="barra-fissa" id="barra-fissa" aria-hidden="true">
+    <a class="pulsante pulsante--pieno" data-link="whatsapp" data-campo="hero.pulsante" tabindex="-1"></a>
+  </div>
+
+  <!-- Prima i dati, poi lo script che li usa -->
+  <script src="js/dati.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
